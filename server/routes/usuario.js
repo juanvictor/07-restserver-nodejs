@@ -14,6 +14,7 @@ app.get('/usuario', function(req, res) {
     let limite = req.query.limite || 5;
     limite = Number(limite);
 
+    // Usuario.find({ google: true })
     Usuario.find({})
         .skip(desde)
         .limit(limite)
@@ -25,9 +26,13 @@ app.get('/usuario', function(req, res) {
                 });
             }
 
-            res.json({
-                ok: true,
-                usuarios
+            // Usuario.count({ google: true }, (err, conteo) => {
+            Usuario.count({}, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    usuarios,
+                    cuantos: conteo
+                });
             });
         });
 
