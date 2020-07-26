@@ -110,8 +110,35 @@ app.put('/usuario/:id', function(req, res) {
 });
 
 
-app.delete('/usuario', function(req, res) {
-    res.json('delete Usuario');
+// BORRADO DE LA BASE DE DATOS
+app.delete('/usuario/:id', function(req, res) {
+    let id = req.params.id;
+
+    Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!usuarioBorrado) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario no encontrado'
+                }
+            });
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioBorrado
+        });
+    });
+
+
+    // res.json('delete Usuario');
 });
 
 module.exports = app;
