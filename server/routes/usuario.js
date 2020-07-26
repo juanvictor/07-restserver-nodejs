@@ -15,7 +15,7 @@ app.get('/usuario', function(req, res) {
     limite = Number(limite);
 
     // Usuario.find({ google: true })
-    Usuario.find({})
+    Usuario.find({}, 'nombre email role estado google img')
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => {
